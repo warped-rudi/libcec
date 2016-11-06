@@ -62,8 +62,6 @@ using namespace std;
 using namespace CEC;
 using namespace P8PLATFORM;
 
-#include "AdapterMessageQueue.h"
-
 #define LIB_CEC m_callback->GetLib()
 
 // these are defined in nxp private header file
@@ -78,13 +76,11 @@ using namespace P8PLATFORM;
 
 
 CIMXCECAdapterCommunication::CIMXCECAdapterCommunication(IAdapterCommunicationCallback *callback) :
-    IAdapterCommunication(callback)/*,
-    m_bLogicalAddressChanged(false)*/
+    IAdapterCommunication(callback)
 {
   CLockObject lock(m_mutex);
 
   m_iNextMessage = 0;
-  //m_logicalAddresses.Clear();
   m_logicalAddress = CECDEVICE_UNKNOWN;
   m_bLogicalAddressRegistered = false;
   m_bInitialised = false;
@@ -277,7 +273,6 @@ void *CIMXCECAdapterCommunication::Process(void)
   hdmi_cec_event event;
   int ret;
 
-  //uint32_t opcode, status;
   cec_logical_address initiator, destination;
 
   while (!IsStopped())
