@@ -181,7 +181,7 @@ else()
   # Swig
   find_package(SWIG)
   if (PYTHONLIBS_FOUND AND SWIG_FOUND)
-    set(CMAKE_SWIG_FLAGS "")
+    set(CMAKE_SWIG_FLAGS "-threads")
     set(HAVE_PYTHON 1)
     if ("${PYTHONLIBS_VERSION_STRING}" STREQUAL "")
       message(STATUS "Python version not found, defaulting to 2.7")
@@ -208,9 +208,9 @@ else()
               RENAME      __init__.py)
     else()
       install(TARGETS     ${SWIG_MODULE_cec_REAL_NAME}
-              DESTINATION lib/python${PYTHON_VERSION}/dist-packages/cec)
+              DESTINATION lib/python${PYTHON_VERSION}/site-packages/cec)
       install(FILES       ${CMAKE_BINARY_DIR}/src/libcec/cec.py
-              DESTINATION lib/python${PYTHON_VERSION}/dist-packages/cec
+              DESTINATION lib/python${PYTHON_VERSION}/site-packages/cec
               RENAME      __init__.py)
     endif()
   endif()
