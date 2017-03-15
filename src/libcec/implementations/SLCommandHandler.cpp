@@ -34,7 +34,7 @@
 #include "env.h"
 #include "SLCommandHandler.h"
 
-#include <p8-platform/util/timeutils.h>
+#include "p8-platform/util/timeutils.h"
 #include "devices/CECBusDevice.h"
 #include "devices/CECPlaybackDevice.h"
 #include "CECProcessor.h"
@@ -105,8 +105,8 @@ bool CSLCommandHandler::InitHandler(void)
 
 int CSLCommandHandler::HandleVendorCommand(const cec_command &command)
 {
-  if (!m_processor->IsHandledByLibCEC(command.destination))
-    return true;
+  if (!m_processor->IsHandledByLibCEC(command.destination) && command.destination != CECDEVICE_BROADCAST)
+    return COMMAND_HANDLED;
 
   if (command.parameters.size == 1 &&
       command.parameters[0] == SL_COMMAND_INIT)
