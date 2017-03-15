@@ -68,7 +68,7 @@ namespace CEC
     bool SetLineTimeout(uint8_t UNUSED(iTimeout)) { return true; }
     bool StartBootloader(void) { return false; }
     bool SetLogicalAddresses(const cec_logical_addresses &addresses);
-    cec_logical_addresses GetLogicalAddresses(void);
+    cec_logical_addresses GetLogicalAddresses(void) const;
     bool PingAdapter(void) { return IsInitialised(); }
     uint16_t GetFirmwareVersion(void);
     uint32_t GetFirmwareBuildDate(void) { return 0; }
@@ -101,7 +101,7 @@ namespace CEC
 
     cec_logical_address         m_logicalAddress;
 
-    P8PLATFORM::CMutex          m_mutex;
+    mutable P8PLATFORM::CMutex  m_mutex;
     P8PLATFORM::CCDevSocket     *m_dev;	/**< the device connection */
     bool                        m_bLogicalAddressRegistered;
     bool                        m_bInitialised;

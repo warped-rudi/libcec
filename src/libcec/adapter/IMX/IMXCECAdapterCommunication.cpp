@@ -208,7 +208,7 @@ uint16_t CIMXCECAdapterCommunication::GetPhysicalAddress(void)
 }
 
 
-cec_logical_addresses CIMXCECAdapterCommunication::GetLogicalAddresses(void)
+cec_logical_addresses CIMXCECAdapterCommunication::GetLogicalAddresses(void) const
 {
   cec_logical_addresses addresses;
   addresses.Clear();
