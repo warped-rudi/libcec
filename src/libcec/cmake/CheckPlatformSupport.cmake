@@ -22,6 +22,7 @@ set(RPI_INCLUDE_DIR "" CACHE STRING "Path to Raspberry Pi headers")
 set(PLATFORM_LIBREQUIRES "")
 
 include(CheckFunctionExists)
+include(CheckSymbolExists)
 include(FindPkgConfig)
 
 # defaults
@@ -43,6 +44,7 @@ if(WIN32)
   # Windows
   add_definitions(-DTARGET_WINDOWS -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS -D_WINSOCKAPI_)
   set(LIB_DESTINATION ".")
+  check_symbol_exists(_X64_ Windows.h WIN64)
   if (${WIN64})
     set(LIB_INFO "${LIB_INFO} (x64)")
   else()
