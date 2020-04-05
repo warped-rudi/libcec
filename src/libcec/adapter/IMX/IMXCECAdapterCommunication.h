@@ -86,7 +86,7 @@ namespace CEC
     uint16_t GetAdapterProductId(void) const { return IMX_ADAPTER_PID; }
     void HandleLogicalAddressLost(cec_logical_address UNUSED(oldAddress));
     void SetActiveSource(bool UNUSED(bSetTo), bool UNUSED(bClientUnregistered)) {}
-    bool RegisterLogicalAddress(const cec_logical_address address);
+    bool GetStats(struct cec_adapter_stats* UNUSED(stats)) { return false; }
     ///}
 
     /** @name P8PLATFORM::CThread implementation */
@@ -97,6 +97,7 @@ namespace CEC
   private:
     bool IsInitialised(void) const { return m_bInitialised; };
     bool UnregisterLogicalAddress(void);
+    bool RegisterLogicalAddress(const cec_logical_address address);
 
     std::string                 m_strError; /**< current error message */
 
