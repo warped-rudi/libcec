@@ -2,6 +2,10 @@
 /*
  * This file is part of the libCEC(R) library.
  *
+ * libCEC Linux CEC Adapter is Copyright (C) 2017 Jonas Karlman
+ * based heavily on:
+ * libCEC AOCEC Code is Copyright (C) 2016 Gerald Dachs
+ * libCEC Exynos Code is Copyright (C) 2014 Valentin Manea
  * libCEC(R) is Copyright (C) 2011-2015 Pulse-Eight Limited.  All rights reserved.
  * libCEC(R) is an original work, containing original code.
  *
@@ -19,8 +23,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- * 02110-1301  USA
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
  *
  * Alternatively, you can license this library under a commercial license,
@@ -34,23 +37,15 @@
 
 #include "env.h"
 
+#if defined(HAVE_LINUX_API)
+
 namespace CEC
 {
-  #define CEC_VID  0x2548
-  #define CEC_PID  0x1001
-  #define CEC_PID2 0x1002
-  
-  class CUSBCECAdapterDetection
+  class CLinuxCECAdapterDetection
   {
   public:
-    static uint8_t FindAdapters(cec_adapter_descriptor *deviceList, uint8_t iBufSize, const char *strDevicePath = NULL);
-    static bool    CanAutodetect(void);
-
-  private:
-    static uint8_t FindAdaptersWindows(cec_adapter_descriptor *deviceList, uint8_t iBufSize, const char *strDevicePath = NULL);
-    static uint8_t FindAdaptersApple(cec_adapter_descriptor *deviceList, uint8_t iBufSize, const char *strDevicePath = NULL);
-    static uint8_t FindAdaptersUdev(cec_adapter_descriptor *deviceList, uint8_t iBufSize, const char *strDevicePath = NULL);
-    static uint8_t FindAdaptersLinux(cec_adapter_descriptor *deviceList, uint8_t iBufSize, const char *strDevicePath = NULL);
-    static uint8_t FindAdaptersFreeBSD(cec_adapter_descriptor *deviceList, uint8_t iBufSize, const char *strDevicePath = NULL);
+    static bool FindAdapter(void);
   };
 };
+
+#endif

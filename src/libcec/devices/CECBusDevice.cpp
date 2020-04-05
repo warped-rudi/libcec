@@ -301,6 +301,18 @@ bool CCECBusDevice::IsHandledByLibCEC(void)
   return m_deviceStatus == CEC_DEVICE_STATUS_HANDLED_BY_LIBCEC;
 }
 
+bool CCECBusDevice::IsActive(bool suppressPoll /* = true */)
+{
+  switch (GetStatus(false, suppressPoll))
+  {
+    case CEC_DEVICE_STATUS_PRESENT:
+    case CEC_DEVICE_STATUS_HANDLED_BY_LIBCEC:
+      return true;
+    default:
+      return false;
+  }
+}
+
 void CCECBusDevice::SetUnsupportedFeature(cec_opcode opcode)
 {
   // some commands should never be marked as unsupported

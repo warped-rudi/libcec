@@ -9,6 +9,7 @@
 #       HAVE_RPI_API              ON if Raspberry Pi is supported
 #       HAVE_TDA995X_API          ON if TDA995X is supported
 #       HAVE_EXYNOS_API           ON if Exynos is supported
+#       HAVE_LINUX_API            ON if Linux is supported
 #       HAVE_AOCEC_API            ON if AOCEC is supported
 #       HAVE_IMX_API              ON if iMX.6 is supported
 #       HAVE_P8_USB               ON if Pulse-Eight devices are supported
@@ -31,6 +32,7 @@ SET(HAVE_LIBUDEV         OFF CACHE BOOL "udev not supported")
 SET(HAVE_RPI_API         OFF CACHE BOOL "raspberry pi not supported")
 SET(HAVE_TDA995X_API     OFF CACHE BOOL "tda995x not supported")
 SET(HAVE_EXYNOS_API      OFF CACHE BOOL "exynos not supported")
+SET(HAVE_LINUX_API       OFF CACHE BOOL "linux not supported")
 SET(HAVE_AOCEC_API       OFF CACHE BOOL "aocec not supported")
 # Pulse-Eight devices are always supported
 set(HAVE_P8_USB          ON  CACHE BOOL "p8 usb-cec supported" FORCE)
@@ -45,7 +47,8 @@ if(WIN32)
   add_definitions(-DTARGET_WINDOWS -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS -D_WINSOCKAPI_)
   set(LIB_DESTINATION ".")
   check_symbol_exists(_X64_ Windows.h WIN64)
-  if (${WIN64})
+  check_symbol_exists(_AMD64_ Windows.h AMD64)
+  if (DEFINED WIN64 OR DEFINED AMD64)
     set(LIB_INFO "${LIB_INFO} (x64)")
   else()
     add_definitions(-D_USE_32BIT_TIME_T)
@@ -138,6 +141,16 @@ else()
                                    adapter/Exynos/ExynosCECAdapterCommunication.cpp)
     source_group("Source Files\\adapter\\Exynos" FILES ${CEC_SOURCES_ADAPTER_EXYNOS})
     list(APPEND CEC_SOURCES ${CEC_SOURCES_ADAPTER_EXYNOS})
+  endif()
+
+  # Linux
+  if (${HAVE_LINUX_API})
+    set(LIB_INFO "${LIB_INFO}, Linux")
+    SET(HAVE_LINUX_API ON CACHE BOOL "linux supported" FORCE)
+    set(CEC_SOURCES_ADAPTER_LINUX adapter/Linux/LinuxCECAdapterDetection.cpp
+                                  adapter/Linux/LinuxCECAdapterCommunication.cpp)
+    source_group("Source Files\\adapter\\Linux" FILES ${CEC_SOURCES_ADAPTER_LINUX})
+    list(APPEND CEC_SOURCES ${CEC_SOURCES_ADAPTER_LINUX})
   endif()
 
   # AOCEC

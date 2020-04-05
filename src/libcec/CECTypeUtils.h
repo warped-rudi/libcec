@@ -497,6 +497,8 @@ namespace CEC
       case CEC_VENDOR_TOSHIBA:
       case CEC_VENDOR_TOSHIBA2:
         return "Toshiba";
+      case CEC_VENDOR_APPLE:
+        return "Apple";
       case CEC_VENDOR_AKAI:
         return "Akai";
       case CEC_VENDOR_AOC:
@@ -768,6 +770,8 @@ namespace CEC
         return "TDA995x";
       case ADAPTERTYPE_IMX:
         return "i.MX";
+      case ADAPTERTYPE_LINUX:
+        return "Linux";
       default:
         return "unknown";
       }

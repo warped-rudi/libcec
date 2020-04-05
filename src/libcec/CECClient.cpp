@@ -143,6 +143,8 @@ bool CCECClient::OnRegister(void)
   if (m_configuration.bActivateSource == 1)
     GetPrimaryDevice()->ActivateSource(500);
 
+  PersistConfiguration(m_configuration);
+
   return true;
 }
 
@@ -912,6 +914,7 @@ bool CCECClient::SetConfiguration(const libcec_configuration &configuration)
     m_configuration.iButtonRepeatRateMs        = configuration.iButtonRepeatRateMs;
     m_configuration.iButtonReleaseDelayMs      = configuration.iButtonReleaseDelayMs;
     m_configuration.bAutoWakeAVR               = configuration.bAutoWakeAVR;
+    m_configuration.bAutoPowerOn               = configuration.bAutoPowerOn;
   }
 
   bool bNeedReinit(false);
@@ -1457,11 +1460,7 @@ bool CCECClient::IsActiveDevice(const cec_logical_address iAddress)
 
 bool CCECClient::IsActiveDeviceType(const cec_device_type type)
 {
-  CECDEVICEVEC activeDevices;
-  if (m_processor)
-    m_processor->GetDevices()->GetActive(activeDevices);
-  CCECDeviceMap::FilterType(type, activeDevices);
-  return !activeDevices.empty();
+  return m_processor->GetDevices()->IsActiveType(type, false);
 }
 
 cec_logical_address CCECClient::GetActiveSource(void)
@@ -1708,3 +1707,11 @@ bool CCECClient::AudioEnable(bool enable)
       audio->EnableAudio(device) :
       false;
 }
+
+bool CCECClient::GetStats(struct cec_adapter_stats* stats)
+{
+  return !!m_processor ?
+      m_processor->GetStats(stats) :
+      false;
+}
+
